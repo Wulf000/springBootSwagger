@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * springboot简单测试controller
- * @author 走遍千里
+ * 
  */
 @Controller
 @RequestMapping("/demo")
