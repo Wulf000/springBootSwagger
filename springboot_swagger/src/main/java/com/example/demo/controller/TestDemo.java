@@ -9,7 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * springboot测试controller
+ * springboot简单测试controller
  * @author 走遍千里
  */
 @Controller
