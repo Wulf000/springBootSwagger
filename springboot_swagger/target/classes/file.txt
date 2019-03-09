@@ -1,0 +1,74 @@
+static文件夹存放静态资源文件
+template文件夹存放页面html和jsp文件
+mvnw 全名是maven wrapper,它的原理是在maven-wrapper.properties文件中记录你要使用的maven版本
+properties文件示例(application.properties)：
+	server.port=80
+YAML文件示例(application.yml)：
+	server:
+  		port: 80
+  		  		
+在resources目录下创建两个配置文件，
+	一个为application.yml配置文件，设置端口为8010，
+	另一个为application.properties配置文件，设置端口为8020；
+运行结果：
+	可见在同一目录下，properties配置优先级 > YAML配置优先级。
+	//所以我们在jar包启动时带上properties写法的配置可以覆盖配置
+
+配置文件目录
+	SpringBoot配置文件可以放置在多种路径下，不同路径下的配置优先级有所不同。
+	可放置目录(优先级从高到低)
+	file:./config/ (当前项目路径config目录下);
+	file:./ (当前项目路径下);
+	classpath:/config/ (类路径config目录下);
+	classpath:/ (类路径config下).
+
+3.自定义配置属性
+SpringBoot提供了许多的配置，但通常情况我们需要自定义自己的配置应用自己的系统中，
+如你需要配置一个默认的用户名密码做为系统的登录用。
+首先创建一个实体类，作为配置注入用，并使用**@ConfigurationProperties注解进行批量注入，
+也可以使用Spring底层注解@Value("${user.username}")**的方式一个一个注入达到同意的效果
+
+@Component
+@ConfigurationProperties(prefix = "user")
+public class Login{
+    private String username;
+    private String password;
+    ...
+}
+
+或者@Value写法
+
+@Component
+public class Login{
+    
+    private String username;
+    private String password;
+    ...
+}
+
+配置yaml文件
+
+user:
+    username: admin
+    password: 123
+
+或者properties文件
+
+login.username=admin
+login.password=123
+
+编写一个junit测试用例，看看配置的值是否正常注入：
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class DeployApplicationTests {
+    @Autowired
+    private Login login;
+    @Test
+    public void contextLoads() {
+        System.out.println(login);
+    }
+}
+从输出结果上看，值已正常注入
+Login{username=‘admin’, password=‘123’}
+
